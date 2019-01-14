@@ -129,7 +129,7 @@
     if(base.type == 0){
         $('body').append('<div class="titleType">测试版</div>')
     }
-    // openToast('加载中...',1);
+    openToast('加载中...',1);
     var page = 1;
     var token = '';
     // return 1=>Android    0=>IOS
@@ -179,7 +179,7 @@
             success: function(res){
                 // console.log(res);
                 if(res.success == "00000000"){
-                    // closeToast();
+                    closeToast();
                     $('.loading').remove();
                     var str = '';
                     if(res.obj.data != null){
@@ -218,12 +218,12 @@
                         // },800);
                     }
                 }else{
-                    // closeToast();
-                    // openToast(res.msg,0,2000);
+                    closeToast();
+                    openToast(res.msg,0,2000);
                 }
             },error: function(err){
-                // closeToast();
-                // openToast('网络异常',0,2000);
+                closeToast();
+                openToast('网络异常',0,2000);
                 console.log(err);
             }
         })
