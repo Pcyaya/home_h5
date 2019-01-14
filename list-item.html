@@ -115,7 +115,7 @@
         $(function(){
             
         })
-        // openToast('加载中...',1);
+        openToast('加载中...',1);
         var bgColor = window.localStorage.getItem("bgColor");
         var infoId = window.localStorage.getItem("list_item_id");
         var token = window.localStorage.getItem("token");
@@ -145,7 +145,7 @@
                     var str = '';
                     var cont = '';
                     if(res.success == "00000000"){
-                        // closeToast();
+                        closeToast();
                         $(".list-title div").html(res.obj.title);
                         if(res.obj.content != null){
                             cont +='<div class="list-item">'
@@ -172,8 +172,8 @@
                         $('.content').append('<div class="state">声明 ： 该文来源于网络，不代表艾侗游的立场，艾侗游仅提供信息存储空间服务。</div>');
                     }
                 },error: function(err){
-                    // closeToast();
-                    // openToast('网络异常',0,2000);
+                    closeToast();
+                    openToast('网络异常',0,2000);
                     console.log(err);
                 }
             })

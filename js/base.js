@@ -1,21 +1,18 @@
-    try{
-        var path = window.location.host;
-        var str = path.substring(path.lastIndexOf('com')+3,path.lastIndexOf('com')+7)
-        if(str.indexOf(':80/') != -1 || str.indexOf(':') === -1){
-            //正式
-            var base = {
-                hosturl:"http://aetosgo.com:80/anygo/",
-                type: 1
-            }
-        }else {
-            //测试
-            var base = {
-                hosturl:"http://aetosgo.com:8080/anygo/",
-                type: 0
-            }
+
+    var path = window.location.host;
+    var str = path.substring(path.lastIndexOf('com')+3,path.lastIndexOf('com')+7)
+    if(str.indexOf(':80/') != -1 || str.indexOf(':') === -1){
+        //正式
+        var base = {
+            hosturl:"http://aetosgo.com:80/anygo/",
+            type: 1
         }
-    }catch(e){
-        // alert(e)
+    }else {
+        //测试
+        var base = {
+            hosturl:"http://aetosgo.com:8080/anygo/",
+            type: 0
+        }
     }
 
     /**
