@@ -1,6 +1,5 @@
 
     var path = window.location.host;
-    console.log(path)
     var str = path.substring(path.lastIndexOf('com')+3,path.lastIndexOf('com')+7)
     if(str.indexOf(':80/') != -1 || str.indexOf(':') === -1){
         //正式
@@ -15,6 +14,7 @@
             type: 0
         }
     }
+    console.log(base)
 
     /**
      * openToast弹窗时间
