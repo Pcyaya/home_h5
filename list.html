@@ -133,28 +133,28 @@
     var page = 1;
     var token = '';
     // return 1=>Android    0=>IOS
-    if(isIos() == 0){
-        // 处理交互  方法名要和ios内定义的对应
-        setupWebViewJavascriptBridge(function(bridge) {
-            bridge.registerHandler('getIOSToken', function(data, responseCallback) {
-                token = data;
-                localStorage.setItem('token',token)
-                getData(token,page);
-                responseCallback(data);
-            })
-        })
-    }else{
-        try{
-            token = android.toAndroidGetAccess();
-            // token = '7f821380-5fa4-43ed-ac51-7f213b8ff717'
-            localStorage.setItem('token',token)
-            setTimeout(() => {
-                getData(token,page); 
-            }, 0);
-        }catch(e){
-            // alert(e)
-        }
-    }
+    // if(isIos() == 0){
+    //     // 处理交互  方法名要和ios内定义的对应
+    //     setupWebViewJavascriptBridge(function(bridge) {
+    //         bridge.registerHandler('getIOSToken', function(data, responseCallback) {
+    //             token = data;
+    //             localStorage.setItem('token',token)
+    //             getData(token,page);
+    //             responseCallback(data);
+    //         })
+    //     })
+    // }else{
+    //     try{
+    //         token = android.toAndroidGetAccess();
+    //         // token = '7f821380-5fa4-43ed-ac51-7f213b8ff717'
+    //         localStorage.setItem('token',token)
+    //         setTimeout(() => {
+    //             getData(token,page); 
+    //         }, 0);
+    //     }catch(e){
+    //         // alert(e)
+    //     }
+    // }
     if($(window).width()<=516){
         var bgUrl = './images/drawable-hdpi/';
     }else if($(window).width()>516 && $(window).width()<=688){
@@ -162,7 +162,8 @@
     }else{
         var bgUrl = './images/drawable-xxhdpi/';
     }
-    // var token = 'f57ca08f-6d7b-49eb-a6b0-61141602ff70';
+    var token = 'a427af28-4f1f-43df-8e80-1e036676abc7';
+    getData(token,page); 
     var bgColor = [bgUrl+'icon_bg01.png',bgUrl+'icon_bg02.png',bgUrl+'icon_bg03.png',bgUrl+'icon_bg04.png',bgUrl+'icon_bg05.png',bgUrl+'icon_bg06.png',bgUrl+'icon_bg07.png',bgUrl+'icon_bg08.png',bgUrl+'icon_bg09.png'];
     var titleColor = ['#5395D3','#77CAEE','#F07883','#77CF9F','#AAAAAA','#DC917B','#F4C677','#BE83D2','#CBB593'];
     var arr = [];
