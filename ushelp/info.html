@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" >
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>使用帮助</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        .ushelp-info{
+            position: absolute;
+            width: 100%;
+            font-size: 95%;
+            background: #fff;
+            min-height: 100%;
+            -webkit-overflow-scrolling:touch;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+        .title{
+            font-size: 110%;
+            font-weight: bold;
+            padding: .7em 1em;
+            border-bottom: 1px solid #ccc;
+        }
+        .content{
+            padding: .7em 1em;
+        }
+        .img{
+            width: 100%；
+        }
+        .img img{
+            width: 100%;
+        }
+        .freeback{
+            position: fixed;
+            background: #fff;
+            width: 100%;
+            bottom: 0;
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            color: #999;
+        }
+        .freeback-btn{
+            width: 100%;
+            text-align: center;
+        }
+        .freeback-text{
+            display: none;
+            padding: .3em 1em;
+        }
+        .freeback-btn:active,.col-man:active{
+            background: #f8f8f8;
+            -webkit-tap-highlight-color:transparent;
+        }
+        .activeUp{
+            transform:rotate(180deg);
+            transition: all linear .2s;
+        }
+        .activeDown{
+            transform:rotate(0);
+            transition: all linear .2s;
+        }
+        .col-man{
+            color: #3B9DF8;
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="ushelp-info">
+        <div class="ushelp-content">
+            <div class="title">如何更换绑定的手机号</div>
+            <div class="content">
+                    艾侗游是一个相对安全而又开放的平台，所以绑定的手机号可以根据个人需求进行公开或非公开的限制性调整。
+                    初次登录艾侗游，手机号默认为是不公开的，您可以在【我的】-【设置】-【隐私设置】-【谁能查看我的手机号】中限制能查看您手机号的人
+            </div>
+            <div class="img">
+                <img src="http://ag-home.oss-cn-beijing.aliyuncs.com/ushelp-imgs/20181228105743722jfocyismvdh.png" alt="">
+            </div>
+            <div class="freeback">
+                <div class="freeback-btn">
+                    <div>问题没有得到解决？</div>
+                    <div class="icon"><img src="../images/icon_down.png" alt=""></div>
+                </div>
+                <div class="freeback-text">
+                    您可以去【我的】- <span class="col-man freebackClick">【问题反馈】</span>中选择相应的问题类型，填写您遇到的问题，我们会及时在【使用帮助】中为您解答或在【系统消息】中给您回复
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/jquery.min.js"></script>
+    <script src="../js/base.js"></script>
+    <script>
+        $('.ushelp-content').css({'paddingBottom':$('.freeback').height()})
+        $('.freeback-btn').click(function(){
+            if($(this).find('.icon').hasClass('activeUp')){
+                $(this).find('.icon').removeClass('activeUp').addClass('activeDown');
+                $(this).next().slideUp(200);
+            }else {
+                $(this).find('.icon').addClass('activeUp').removeClass('activeDown')
+                $(this).next().slideDown(200);
+            }
+            setTimeout(() => {
+                $('.ushelp-content').css({'paddingBottom':$('.freeback').height()})
+            }, 200);
+        })
+        $('.freebackClick').click(function(){
+            //跳转到 问题反馈
+            if(!isIos()){
+                alert('ios')
+            }else{
+                alert('android')
+            }
+        })
+    </script>
+</body>
+</html>

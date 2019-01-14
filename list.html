@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" >
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>生存锦囊</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+   
+        .bg{
+            position: absolute;
+            background: url(images/bg_scjn.png);
+            background-size: cover;
+            width: 100%;
+            height: 100%;
+        }
+        .content{
+            position: absolute;
+            overflow: auto;
+            -webkit-overflow-scrolling:touch;    /* 用于 ios5+ */ 
+            width: 100%;
+            height: 100%;
+        }
+        .list-item{
+            /* width: 90%; */
+            margin: 3% 5% -3% 5%;
+            padding: 1em 0;
+            /* position: relative; */
+            display: flex;
+            flex-direction: column
+        }
+        .list-item div{
+            width: 90%;
+            margin: .3em auto;
+            overflow: hidden;
+            text-overflow:ellipsis;
+            white-space: nowrap;
+        }
+        .list-item div:nth-child(1){
+            color: #fff;
+            font-size: 1.1em
+        }
+        .list-item div:nth-child(2){
+            color: rgba(255, 255, 255, .56);
+            font-size: .9em;
+        }
+        /* .list-item::after{
+            position: absolute;
+            content: "";
+            width: .4em;
+            height: .4em;
+            background: rgba(0, 0, 0, .5);
+            border-radius: 50%;
+            right: .4em;
+            top: .4em;
+        } */
+        .loading{
+            z-index: 9999999999;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            text-align: center;
+            height: 2em;
+            line-height: 2em;
+            background: rgba(100, 100, 100, .5);
+            color: #fff;
+            font-size: 12px;
+        }
+        .loading img{
+            width: .8em;
+            height: .8em;
+            margin-right: .5em;
+        }
+
+        /* toast弹窗样式 */
+        .toast{
+            z-index: 9999999999;
+            position: absolute;
+            top: 40%;
+            left: 35%;
+            background: rgba(100, 100, 100, .8);
+            padding: 1em 1.5em;
+            border-radius: 4px;
+            color: #fff;
+            font-size: 13px;
+        }
+        .toast img{
+            width: 1em;
+            height: 1em;
+        }
+        .toast span{
+            margin-left: .3em;
+            letter-spacing: 1.5px;
+            user-select:none;
+        }
+
+        .titleType{
+            z-index: 11;
+            position: absolute;
+            top: 2px;
+            font-size: 16px;
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <div class="bg"></div>
+        <!-- <div class="top">
+            <div class="top-tit">
+                <div class="left-icon"></div>
+                <div>生存锦囊</div>
+                <div class="phone-icon"></div>
+            </div>
+        </div> -->
+        <div class="content">
+            
+        </div>
+    </div>
+</body>
+<script src="./js/base.js"></script>
+<script src="js/jquery.min.js"></script>
+<script src = "https://cdn.polyfill.io/v2/polyfill.min.js"></script>
+<script>
+    if(base.type == 0){
+        $('body').append('<div class="titleType">测试版</div>')
+    }
+    // openToast('加载中...',1);
+    var page = 1;
+    var token = '';
+    // return 1=>Android    0=>IOS
+    if(isIos() == 0){
+        // 处理交互  方法名要和ios内定义的对应
+        setupWebViewJavascriptBridge(function(bridge) {
+            bridge.registerHandler('getIOSToken', function(data, responseCallback) {
+                token = data;
+                localStorage.setItem('token',token)
+                getData(token,page);
+                responseCallback(data);
+            })
+        })
+    }else{
+        try{
+            token = android.toAndroidGetAccess();
+            // token = '7f821380-5fa4-43ed-ac51-7f213b8ff717'
+            localStorage.setItem('token',token)
+            setTimeout(() => {
+                getData(token,page); 
+            }, 0);
+        }catch(e){
+            // alert(e)
+        }
+    }
+    if($(window).width()<=516){
+        var bgUrl = './images/drawable-hdpi/';
+    }else if($(window).width()>516 && $(window).width()<=688){
+        var bgUrl = './images/drawable-xhdpi/';
+    }else{
+        var bgUrl = './images/drawable-xxhdpi/';
+    }
+    // var token = 'f57ca08f-6d7b-49eb-a6b0-61141602ff70';
+    var bgColor = [bgUrl+'icon_bg01.png',bgUrl+'icon_bg02.png',bgUrl+'icon_bg03.png',bgUrl+'icon_bg04.png',bgUrl+'icon_bg05.png',bgUrl+'icon_bg06.png',bgUrl+'icon_bg07.png',bgUrl+'icon_bg08.png',bgUrl+'icon_bg09.png'];
+    var titleColor = ['#5395D3','#77CAEE','#F07883','#77CF9F','#AAAAAA','#DC917B','#F4C677','#BE83D2','#CBB593'];
+    var arr = [];
+    for(var i=0;i<100;i++){
+        arr = arr.concat(bgColor);
+    }
+ 
+    function getData(token,page){
+        $.ajax({
+            url: base.hosturl+'survival/list',
+            type: 'post',
+            data: {"access_token":token,"search":"","page":page,"rows":10},
+            dataType: 'json',
+            success: function(res){
+                // console.log(res);
+                if(res.success == "00000000"){
+                    // closeToast();
+                    $('.loading').remove();
+                    var str = '';
+                    if(res.obj.data != null){
+                        for(var i=0;i<res.obj.data.length;i++){
+                            str +=' <div num='+(i)+' class="list-item" id="'+res.obj.data[i].id+'">'
+                                // +'   <img style="width:100%" src="'+arr[i%9]+'" />'
+                                +'   <div>'+res.obj.data[i].title+'</div>'
+                                +'   <div>'+res.obj.data[i].content+'</div>'
+                                +' </div>'
+                        }
+                        $('.content').append(str);
+                        for(var i=0;i<$(".list-item").length;i++){
+                            $(".list-item").eq(i).css({'background':'url('+arr[i]+') no-repeat center','backgroundSize':'100%'})
+                        }
+                        
+                        if($(window).width()<=450){
+
+                        }else if($(window).width()>450 && $(window).width()<=500){
+                            $(".list-item").css({'padding':'1.5em 0'});
+                        }else if($(window).width()>500 && $(window).width()<=550){
+                            $(".list-item").css({'padding':'2em 0'});
+                        }else{
+                            $(".list-item").css({'padding': $(window).width()/220+'em 0'});
+                        }
+                        $(".list-item").off('click');
+                        $(".list-item").on('click',function(){
+                            var num = $(this).attr('num')%9;
+                            window.localStorage.setItem("list_item_id",$(this).attr("id"));
+                            window.localStorage.setItem("bgColor",titleColor[num]);
+                            window.location.href = "list-item.html";
+                        })
+                    }else{
+                        // $('body').append('<div class="loading">没有了~ω~</div>');
+                        // setTimeout(function(){
+                        //     $('.loading').remove();
+                        // },800);
+                    }
+                }else{
+                    // closeToast();
+                    // openToast(res.msg,0,2000);
+                }
+            },error: function(err){
+                // closeToast();
+                // openToast('网络异常',0,2000);
+                console.log(err);
+            }
+        })
+    }
+
+    $('.content').scroll(function(){
+        if (($(this)[0].scrollTop + $(this).height()) >= $(this)[0].scrollHeight) {
+            // $('body').append('<div class="loading"><img src="images/load.gif" alt=""> 加载更多...</div>');
+            setTimeout(function() {
+                page++;
+                getData(token,page);
+            }, 300);
+        }
+        if($(this)[0].scrollTop == 0){
+            console.log("刷新")
+        }
+    });
+    
+    
+</script>
+</html>

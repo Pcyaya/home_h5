@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" >
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>紧急电话</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        .urgent-box{
+            position: absolute;
+            width: 100%;
+            font-size: 100%;
+            background: #f3f3f3;
+            min-height: 100%;
+            -webkit-overflow-scrolling:touch;
+            overflow: auto;
+        }
+        .box-father{
+            background: #f3f3f3;
+            padding: .4em 1em;
+            color: #999;
+        }
+        .box-child{
+            color: #000;
+            background: #fff;
+            margin-top: .5em;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: .5em 1em;
+        }
+        .box-child:active{
+            background: #f8f8f8;
+            -webkit-tap-highlight-color:transparent;
+        }
+        .box>div:nth-child(2){
+            margin-top: 0;
+        }
+        .box-child img{
+            width: 1.5em;
+        }
+    </style>
+</head>
+<body>
+    <div class="urgent-box">
+        <!-- <div class="box">
+            <div class="box-father">
+                中国大陆
+            </div>
+            <div class="box-child">
+                <div>报警 110</div>
+                <div><img src="../images/icon_phone.png" alt=""></div>
+            </div>
+        </div> -->
+    </div>
+
+    <script src="../js/jquery.min.js"></script>
+    <script>
+        var list = [
+            {
+                title: '中国大陆',
+                details:[
+                    {
+                        title: '报警',
+                        phone: '110'
+                    },
+                    {
+                        title: '急救',
+                        phone: '120'
+                    },
+                    {
+                        title: '交通事故',
+                        phone: '122'
+                    },
+                    {
+                        title: '火警 ',
+                        phone: '119'
+                    },
+                    {
+                        title: '查询 ',
+                        phone: '114'
+                    },
+                ]
+            },
+            {
+                title: '中国香港',
+                details:[
+                    {
+                        title: '急救报警',
+                        phone: '999'
+                    },
+                ]
+            },
+            {
+                title: '中国澳门',
+                details:[
+                    {
+                        title: '急救报警',
+                        phone: '999'
+                    }
+                ]
+            },
+            {
+                title: '中国台湾',
+                details:[
+                    {
+                        title: '报警',
+                        phone: '110'
+                    },
+                    {
+                        title: '火警 ',
+                        phone: '119'
+                    },
+                ]
+            }
+        ]
+        
+        var strBox = '',
+            strChild = '';
+        for(let i=0;i<list.length;i++){
+            strBox += '<div class="box">'
+                    +'       <div class="box-father">'
+                    +'           '+list[i].title+''
+                    +'       </div>'
+                     for(let j=0;j<list[i].details.length;j++){
+                        strBox +='       <div class="box-child">'
+                        +'           <div>'+list[i].details[j].title+' <span class="phone">'+list[i].details[j].phone+'</span></div>'
+                        +'           <div><img src="../images/icon_phone.png" alt=""></div>'
+                        +'       </div>'
+                     }
+                    +'   </div>'
+        }
+        $('.urgent-box').append(strBox)
+        document.body.addEventListener('touchstart', function () { });
+        $('.box-child').click(function(){
+            window.location.href = 'tel:'+$(this).find('.phone').html();
+        })
+    </script>
+</body>
+</html>

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" >
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>使用帮助</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        .ushelp-box{
+            position: absolute;
+            width: 100%;
+            font-size: 100%;
+            background: #f3f3f3;
+            min-height: 100%;
+            -webkit-overflow-scrolling:touch;
+            overflow: auto;
+        }
+        .item{
+            background: #fff;
+        }
+        .title{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: .8em 1em;
+            border-bottom: 1px solid #ccc;
+        }
+        .title>div:nth-child(1){
+            display: flex;
+            align-items: center;
+        }
+        .title>div:nth-child(1) img{
+            margin-right: .5em;
+            width: 2em;
+        }
+        .info{
+            display: none;
+        }
+        .info>div>div{
+            margin-left: 3.5em;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #ccc;
+            padding: .8em 1em .8em 0;
+        }
+        .info>div>div>div:first-child{
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+        .info>div:last-child>div{
+            border-bottom: 0;
+        }
+        .info>div:last-child{
+            border-bottom: 1em solid #f3f3f3;
+        }
+        .info>div:active, .title:active{
+            background: #f8f8f8;
+            -webkit-tap-highlight-color:transparent;
+        }
+        .activeUp{
+            transform:rotate(180deg);
+            transition: all linear .2s;
+        }
+        .activeDown{
+            transform:rotate(0);
+            transition: all linear .2s;
+        }
+    </style>
+</head>
+<body>
+    <div class="ushelp-box">
+        <div class="item">
+            <div class="title">
+                <div><img src="../images/icon_account_number.png" alt="">账号</div>
+                <div class="icon"><img src="../images/icon_down.png" alt=""></div>
+            </div>
+            <div class="info">
+                <div>
+                    <div>
+                        <div>如何更换绑定的手机号</div>
+                        <div><img src="../images/icon_return_right.png" alt=""></div>
+                    </div>
+                </div>
+                <div>
+                    <div>
+                        <div>如何更换绑定的手机号</div>
+                        <div><img src="../images/icon_return_right.png" alt=""></div>
+                    </div>
+                </div>
+                <div>
+                    <div>
+                        <div>如何更换绑定的手机号</div>
+                        <div><img src="../images/icon_return_right.png" alt=""></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+
+    <script src="../js/jquery.min.js"></script>
+    <script>
+        $('.title').click(function(){
+            if($(this).find('.icon').hasClass('activeUp')){
+                $(this).find('.icon').removeClass('activeUp').addClass('activeDown');
+                $(this).next().slideUp(200);
+            }else {
+                $('.title').find('.icon').removeClass('activeUp').addClass('activeDown')
+                $('.title').next().slideUp(200);
+                $(this).find('.icon').addClass('activeUp').removeClass('activeDown')
+                $(this).next().slideDown(200);
+            }
+            
+        })
+        $('.info>div').click(function(){
+            window.location.href = 'info.html'
+        })
+    </script>
+</body>
+</html>
